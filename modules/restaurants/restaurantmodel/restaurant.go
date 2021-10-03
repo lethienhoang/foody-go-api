@@ -1,4 +1,4 @@
-package restaurant_model
+package restaurantmodel
 
 import (
 	"errors"
@@ -6,7 +6,7 @@ import (
 )
 
 type Restaurant struct {
-	Id   int    `json:"id" gorm:"column:id;"`
+	Id   int    `json:"id" gorm:"column:id;unique"`
 	Name string `json:"name" gorm:"column:name;"`
 	Addr string `json:"address" gorm:"column:addr;"`
 }

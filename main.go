@@ -1,6 +1,8 @@
 package main
 
 import (
+	"github.com/foody-go-api/migrations/tables"
+	"github.com/foody-go-api/routes"
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -28,6 +30,10 @@ func runDB() *gorm.DB {
 		log.Panicln(err)
 	}
 
+	// migration tables
+	tables.MigrationRestaurantTable(db)
+
+	// end migration tables
 	return db
 }
 
@@ -39,6 +45,8 @@ func runService() error {
 			"message": "ping",
 		})
 	})
+
+	routes.RestaurantRoute(r, db)
 
 	return r.Run(":8081")
 }
