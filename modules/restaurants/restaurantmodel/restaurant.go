@@ -6,7 +6,8 @@ import (
 )
 
 type Restaurant struct {
-	Id   int    `json:"id" gorm:"column:id;unique"`
+	BaseEntity `json:",inline"`
+	//Id   int    `json:"id" gorm:"column:id;unique"`
 	Name string `json:"name" gorm:"column:name;"`
 	Addr string `json:"address" gorm:"column:addr;"`
 }

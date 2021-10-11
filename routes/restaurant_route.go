@@ -9,6 +9,8 @@ import (
 func RestaurantRoute(r *gin.Engine, db *gorm.DB)  {
 	restaurant := r.Group("/restaurants")
 	{
-		restaurant.POST("", restauranthttps.CreateRerestaurantPath(db))
+		restaurant.POST("", restauranthttps.CreateRestaurantPath(db))
+		restaurant.GET("", restauranthttps.ListRestaurantPath(db))
+		restaurant.PUT("", restauranthttps.UpdateRestaurantPath(db))
 	}
 }

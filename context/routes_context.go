@@ -15,8 +15,7 @@ func NewRouteContext() *RouteContext {
 	return &RouteContext{engine: r}
 }
 
-func(r RouteContext) RunRouteContext(dbCtx *DbCtx) {
-
+func (r RouteContext) Run(dbCtx *DbCtx) error {
 	r.engine.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "ping",
@@ -24,8 +23,6 @@ func(r RouteContext) RunRouteContext(dbCtx *DbCtx) {
 	})
 
 	routes.RestaurantRoute(r.engine, dbCtx.db)
-}
 
-func (r RouteContext) Run() error {
 	return r.engine.Run(":8081")
 }

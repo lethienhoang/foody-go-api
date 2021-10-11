@@ -16,9 +16,7 @@ func NewAppContext() *appCtx {
 }
 
 func (a *appCtx) RunService() error {
-	a.routeContext.RunRouteContext(a.dbCtx)
-
-	if err := a.routeContext.Run(); err != nil {
+	if err := a.routeContext.Run(a.dbCtx); err != nil {
 		return err
 	}
 
