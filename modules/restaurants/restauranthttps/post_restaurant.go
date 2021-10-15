@@ -15,16 +15,14 @@ func CreateRestaurantPath(db *gorm.DB) gin.HandlerFunc {
 		var data restaurantmodel.RestaurantCreate
 
 		if err := c.ShouldBind(&data); err != nil {
-			c.JSON(http.StatusBadRequest, common.NewFailureResponse(http.StatusBadRequest, err.Error()))
-			return
+			panic(common.ErrInvalidRequest(err))
 		}
 
-		store := restaurantrepo.NewSqlConn(db)
+		conn := restaurantrepo.NewSqlConn(db)
 
-		service := restaurantservices.NewCreateRestaurantService(store)
+		service := restaurantservices.NewCreateRestaurantService(conn)
 		if err := service.CreateRestaurant(c.Request.Context(), &data); err != nil {
-			c.JSON(http.StatusInternalServerError, common.NewFailureResponse(http.StatusInternalServerError, err.Error()))
-			return
+			panic(err)
 		}
 
 		c.JSON(http.StatusOK, common.NewSuccessResponseNoPaging(&data))

@@ -2,7 +2,6 @@ package restauranthttps
 
 import (
 	"github.com/foody-go-api/common"
-	"github.com/foody-go-api/modules/restaurants/restaurantmodel"
 	"github.com/foody-go-api/modules/restaurants/restaurantrepo"
 	"github.com/foody-go-api/modules/restaurants/restaurantservices"
 	"github.com/gin-gonic/gin"
@@ -11,13 +10,8 @@ import (
 	"strconv"
 )
 
-func UpdateRestaurantPath(db *gorm.DB) gin.HandlerFunc {
+func DeleteRestaurantPath(db *gorm.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var data restaurantmodel.RestaurantUpdate
-
-		if err := c.ShouldBind(&data); err != nil {
-			panic(common.ErrInvalidRequest(err))
-		}
 
 		id, err := strconv.Atoi(c.Param("id"))
 		if err != nil {
@@ -27,10 +21,10 @@ func UpdateRestaurantPath(db *gorm.DB) gin.HandlerFunc {
 		conn := restaurantrepo.NewSqlConn(db)
 
 		service := restaurantservices.NewUpdateRestaurantService(conn)
-		if err := service.Update(c.Request.Context(), id, &data); err != nil {
+		if err := service.Delete(c.Request.Context(), id); err != nil {
 			panic(err)
 		}
 
-		c.JSON(http.StatusOK, common.NewSuccessResponseNoPaging(&data))
+		c.JSON(http.StatusOK, common.NewSuccessResponseNoPaging("Deleted is successfully"))
 	}
 }

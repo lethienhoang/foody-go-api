@@ -2,10 +2,10 @@ package restaurantrepo
 
 import "gorm.io/gorm"
 
-type sqlConn struct {
+type SqlConn struct {
 	db *gorm.DB
 }
 
-func NewSqlConn(db *gorm.DB) * sqlConn  {
-	return &sqlConn{db: db}
+func NewSqlConn(db *gorm.DB) *SqlConn {
+	return &SqlConn{db: db}
 }

@@ -2,10 +2,12 @@ package restaurantrepo
 
 import (
 	"context"
+	"github.com/foody-go-api/common"
 	"github.com/foody-go-api/modules/restaurants/restaurantmodel"
+	"gorm.io/gorm"
 )
 
-func (s *sqlConn) FindByCondition(ctx context.Context,
+func (s *SqlConn) FindByCondition(ctx context.Context,
 	condition map[string]interface{},
 	moreKeys ...string) (*restaurantmodel.Restaurant, error) {
 
@@ -15,12 +17,14 @@ func (s *sqlConn) FindByCondition(ctx context.Context,
 		s.db.Preload(moreKeys[i])
 	}
 
-	if err := s.db.Table(restaurantmodel.Restaurant{}.TableName()).Where(condition).Error; err != nil {
-		return nil, err
-	}
+	s.db = s.db.Table(restaurantmodel.Restaurant{}.TableName()).Where(condition)
 
-	if err := s.db.First(&result).Error; err != nil {
-		return nil, err
+	if err := s.db.Table(restaurantmodel.Restaurant{}.TableName()).First(&result).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, common.ErrEntityNotFound(restaurantmodel.Restaurant{}.TableName(), common.RecordNotFound)
+		}
+
+		return nil, common.ErrDB(err)
 	}
 
 	return &result, nil

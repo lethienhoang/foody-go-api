@@ -8,8 +8,9 @@ import (
 type Restaurant struct {
 	BaseEntity `json:",inline"`
 	//Id   int    `json:"id" gorm:"column:id;unique"`
-	Name string `json:"name" gorm:"column:name;"`
-	Addr string `json:"address" gorm:"column:addr;"`
+	Name   string `json:"name" gorm:"column:name;"`
+	Addr   string `json:"address" gorm:"column:addr;"`
+	Status int    `json:"status" gorm:"column:status;"`
 }
 
 func (Restaurant) TableName() string {
@@ -17,8 +18,9 @@ func (Restaurant) TableName() string {
 }
 
 type RestaurantUpdate struct {
-	Name *string `json:"name" gorm:"column:name;"`
-	Addr *string `json:"address" gorm:"column:addr;"`
+	Name   *string `json:"name" gorm:"column:name;"`
+	Addr   *string `json:"address" gorm:"column:addr;"`
+	Status int     `json:"status" gorm:"column:status;"`
 }
 
 func (RestaurantUpdate) TableName() string {
@@ -26,9 +28,10 @@ func (RestaurantUpdate) TableName() string {
 }
 
 type RestaurantCreate struct {
-	Id   int    `json:"id" gorm:"column:id;"`
-	Name string `json:"name" gorm:"column:name;"`
-	Addr string `json:"address" gorm:"column:addr;"`
+	Id     int    `json:"id" gorm:"column:id;"`
+	Name   string `json:"name" gorm:"column:name;"`
+	Addr   string `json:"address" gorm:"column:addr;"`
+	Status int    `json:"status" gorm:"column:status;"`
 }
 
 func (RestaurantCreate) TableName() string {

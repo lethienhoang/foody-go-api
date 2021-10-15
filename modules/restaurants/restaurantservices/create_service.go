@@ -3,7 +3,9 @@ package restaurantservices
 import (
 	"context"
 	"errors"
+	"github.com/foody-go-api/common"
 	"github.com/foody-go-api/modules/restaurants/restaurantmodel"
+	"github.com/foody-go-api/modules/restaurants/restaurantrepo"
 )
 
 type CreateRestaurantInterface interface {
@@ -14,15 +16,15 @@ type CreateRestaurantService struct {
 	store CreateRestaurantInterface
 }
 
-func NewCreateRestaurantService(store CreateRestaurantInterface) *CreateRestaurantService {
+func NewCreateRestaurantService(conn *restaurantrepo.SqlConn) *CreateRestaurantService {
 	return &CreateRestaurantService{
-		store: store,
+		store: conn,
 	}
 }
 
 func(r *CreateRestaurantService) CreateRestaurant(ctx context.Context, data *restaurantmodel.RestaurantCreate) error {
 	if data.Name == "" {
-		return errors.New("restaurant name can not be blank")
+		return common.ErrInvalidRequest(errors.New("restaurant name can not be blank"))
 	}
 
 	err := r.store.Create(ctx, data)

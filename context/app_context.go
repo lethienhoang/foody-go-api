@@ -1,24 +1,20 @@
 package context
 
 type AppContext interface {
-	RunService() error
+	Run()
 }
 
-type appCtx struct {
-	dbCtx *DbCtx
-	routeContext *RouteContext
+type AppCtx struct {
+	DbCtx        *DbCtx
+	RouteContext *RouteContext
 }
 
-func NewAppContext() *appCtx {
+func NewAppContext() *AppCtx {
 	dbConn := NewDbContext()
 	r := NewRouteContext()
-	return &appCtx{dbCtx: dbConn, routeContext: r}
+	return &AppCtx{DbCtx: dbConn, RouteContext: r}
 }
 
-func (a *appCtx) RunService() error {
-	if err := a.routeContext.Run(a.dbCtx); err != nil {
-		return err
-	}
-
-	return nil
+func (r *AppCtx) Run() {
+	r.RoutesMapping()
 }

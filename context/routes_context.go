@@ -1,28 +1,45 @@
 package context
 
 import (
-	"github.com/foody-go-api/routes"
+	"github.com/foody-go-api/common"
+	"github.com/foody-go-api/middlewares"
+	"github.com/foody-go-api/modules/restaurants/restauranthttps"
 	"github.com/gin-gonic/gin"
 )
 
 type RouteContext struct {
-	engine *gin.Engine
+	Engine *gin.Engine
 }
 
 func NewRouteContext() *RouteContext {
 	r := gin.Default()
+
 	//r.Group("/v1/api")
-	return &RouteContext{engine: r}
+	return &RouteContext{Engine: r}
 }
 
-func (r RouteContext) Run(dbCtx *DbCtx) error {
-	r.engine.GET("/ping", func(c *gin.Context) {
+func (r *AppCtx) RoutesMapping() {
+	r.RouteContext.Engine.Use(middlewares.HttpResponseMiddleware())
+
+
+	// routes
+	r.RouteContext.Engine.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "ping",
 		})
 	})
 
-	routes.RestaurantRoute(r.engine, dbCtx.db)
+	restaurant := r.RouteContext.Engine.Group("/restaurants")
+	{
+		restaurant.POST("", restauranthttps.CreateRestaurantPath(r.DbCtx.DB))
+		restaurant.GET("", restauranthttps.ListRestaurantPath(r.DbCtx.DB))
+		restaurant.GET("/:id", restauranthttps.GetByIdRestaurantPath(r.DbCtx.DB))
+		restaurant.PUT("/:id", restauranthttps.UpdateRestaurantPath(r.DbCtx.DB))
+		restaurant.DELETE("/:id", restauranthttps.DeleteRestaurantPath(r.DbCtx.DB))
 
-	return r.engine.Run(":8081")
+	}
+
+	if err := r.RouteContext.Engine.Run(":8081"); err != nil {
+		panic(common.ErrInternal(err))
+	}
 }

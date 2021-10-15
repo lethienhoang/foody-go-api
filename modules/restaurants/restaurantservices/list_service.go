@@ -27,7 +27,7 @@ func (l *ListRestaurantService) ListRestaurant(ctx context.Context,
 	paging *common.Paging) ([]restaurantmodel.Restaurant, error) {
 	result, err := l.store.ListByCondition(ctx, conditions, filter, paging)
 	if err != nil {
-		return nil, err
+		return nil, common.ErrCannotGetEntity(restaurantmodel.Restaurant{}.TableName(), err)
 	}
 
 	return result, nil
