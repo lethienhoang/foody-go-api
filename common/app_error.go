@@ -65,7 +65,7 @@ func (e *AppError) Error() string {
 }
 
 func ErrDB(err error) *AppError {
-	return NewErrorResponse(err, "something went wrong with DB", err.Error(), "DB_ERROR")
+	return NewErrorResponse(err, "something went wrong with databases", err.Error(), "DB_ERROR")
 }
 
 func ErrInvalidRequest(err error) *AppError {

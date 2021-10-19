@@ -1,4 +1,4 @@
-package restaurantmodel
+package common
 
 import "time"
 
