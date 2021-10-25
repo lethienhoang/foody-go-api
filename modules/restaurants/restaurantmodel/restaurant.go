@@ -2,11 +2,12 @@ package restaurantmodel
 
 import (
 	"errors"
+	"github.com/foody-go-api/common"
 	"strings"
 )
 
 type Restaurant struct {
-	BaseEntity `json:",inline"`
+	common.BaseEntity `json:",inline"`
 	//Id   int    `json:"id" gorm:"column:id;unique"`
 	Name   string `json:"name" gorm:"column:name;"`
 	Addr   string `json:"address" gorm:"column:addr;"`
@@ -28,7 +29,7 @@ func (RestaurantUpdate) TableName() string {
 }
 
 type RestaurantCreate struct {
-	Id     int    `json:"id" gorm:"column:id;"`
+	common.BaseEntity `json:",inline"`
 	Name   string `json:"name" gorm:"column:name;"`
 	Addr   string `json:"address" gorm:"column:addr;"`
 	Status int    `json:"status" gorm:"column:status;"`

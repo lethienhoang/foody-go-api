@@ -55,9 +55,9 @@ func (biz *UploadService) Upload(ctx context.Context, data []byte, folder, fileN
 	//img.CloudName = "s3" // should be set in provider
 	img.Extension = fileExt
 
-	if err := biz.imgStore.CreateImage(ctx, img); err != nil {
-		return nil, uploadfilemodel.ErrCannotSaveFile(err)
-	}
+	//if err := biz.imgStore.CreateImage(ctx, img); err != nil {
+	//	return nil, uploadfilemodel.ErrCannotSaveFile(err)
+	//}
 
 	return img, nil
 }

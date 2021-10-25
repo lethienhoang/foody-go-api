@@ -25,7 +25,9 @@ func CreateRestaurantPath(db *gorm.DB) gin.HandlerFunc {
 			panic(err)
 		}
 
-		c.JSON(http.StatusOK, common.NewSuccessResponseNoPaging(&data))
+		data.EncryptID(common.DbTypeRestaurant)
+
+		c.JSON(http.StatusOK, common.NewSuccessResponse(data.FakeId))
 	}
 }
 

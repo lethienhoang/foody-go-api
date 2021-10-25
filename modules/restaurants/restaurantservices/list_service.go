@@ -30,5 +30,9 @@ func (l *ListRestaurantService) ListRestaurant(ctx context.Context,
 		return nil, common.ErrCannotGetEntity(restaurantmodel.Restaurant{}.TableName(), err)
 	}
 
+	for i := range result {
+		result[i].EncryptID(common.DbTypeRestaurant)
+	}
+
 	return result, nil
 }

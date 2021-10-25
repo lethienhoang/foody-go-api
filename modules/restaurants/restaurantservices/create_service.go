@@ -28,6 +28,9 @@ func(r *CreateRestaurantService) CreateRestaurant(ctx context.Context, data *res
 	}
 
 	err := r.store.Create(ctx, data)
+	if err != nil {
+		return err
+	}
 
-	return err
+	return nil
 }

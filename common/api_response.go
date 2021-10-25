@@ -18,6 +18,10 @@ func NewSuccessResponseNoPaging(data interface{}) *SuccessRes {
 	return &SuccessRes{Result: data, Paging: nil, Filter: nil}
 }
 
+func NewSuccessResponse(data interface{}) *SuccessRes {
+	return &SuccessRes{Result: data}
+}
+
 func NewFailureResponse(err *AppError) *FailureRes {
 	return &FailureRes{Result: err}
 }

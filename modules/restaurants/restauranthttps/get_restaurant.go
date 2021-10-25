@@ -12,7 +12,10 @@ import (
 
 func GetByIdRestaurantPath(db *gorm.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		id, err := strconv.Atoi(c.Param("id"))
+		crypto:= common.NewCrypto()
+		crypto.Decrypt(c.Param("id"), common.DbTypeRestaurant)
+
+		id, err := strconv.Atoi(crypto.ID)
 		if err != nil {
 			panic(common.ErrInvalidRequest(err))
 		}
